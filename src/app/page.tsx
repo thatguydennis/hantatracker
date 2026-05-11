@@ -31,7 +31,11 @@ export default async function HomePage() {
 
           <div className="flex flex-col gap-4 lg:order-2 lg:col-span-3">
             <StatsBar />
-            <div className="relative h-[55vh] min-h-[320px] w-full overflow-hidden rounded-lg border border-border bg-surface-muted lg:h-[calc(100vh-9rem)]">
+            <div
+              role="region"
+              aria-label="Outbreak map"
+              className="relative h-[55vh] min-h-[320px] w-full overflow-hidden rounded-lg border border-border bg-surface-muted lg:h-[calc(100vh-9rem)]"
+            >
               <MapClient />
             </div>
           </div>

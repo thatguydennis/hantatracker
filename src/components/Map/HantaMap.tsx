@@ -7,11 +7,26 @@ import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import { useMemo } from "react";
 import { cruiseData, routeCoords } from "@/data/cruise-data";
+import { useTheme } from "@/lib/useTheme";
 import { RouteLayer } from "./RouteLayer";
 import { DispersalLayer } from "./DispersalLayer";
 import { EndemicLayer } from "./EndemicLayer";
 
+const TILES = {
+  light: {
+    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+    opacity: 0.85,
+  },
+  dark: {
+    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    opacity: 0.9,
+  },
+} as const;
+
 export function HantaMap() {
+  const theme = useTheme();
+  const tiles = TILES[theme];
+
   const bounds = useMemo(() => {
     const dispersalCoords = cruiseData.dispersal.map((d) => d.coords);
     const all = [...routeCoords, ...dispersalCoords];
@@ -30,9 +45,10 @@ export function HantaMap() {
       attributionControl
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        key={theme}
+        url={tiles.url}
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        opacity={0.85}
+        opacity={tiles.opacity}
         subdomains={["a", "b", "c", "d"]}
         maxZoom={18}
       />

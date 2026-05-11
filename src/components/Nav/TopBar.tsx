@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -11,12 +12,17 @@ const navItems = [
   { href: "/faq", label: "FAQ" },
 ];
 
+const secondaryItems = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/legal", label: "Legal" },
+];
+
 export function TopBar() {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 md:h-16 md:px-6">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-4 md:h-16 md:px-6">
         <Link
           href="/"
           className="text-h3 font-semibold text-text-primary tracking-tight"
@@ -42,19 +48,22 @@ export function TopBar() {
           </span>
         </nav>
 
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-text-primary hover:bg-surface-muted md:hidden"
-        >
-          {open ? (
-            <X size={20} strokeWidth={1.5} />
-          ) : (
-            <Menu size={20} strokeWidth={1.5} />
-          )}
-        </button>
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-text-primary hover:bg-surface-muted md:hidden"
+          >
+            {open ? (
+              <X size={20} strokeWidth={1.5} />
+            ) : (
+              <Menu size={20} strokeWidth={1.5} />
+            )}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -69,6 +78,17 @@ export function TopBar() {
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className="flex min-h-11 items-center text-body font-medium text-text-primary"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            {secondaryItems.map((item) => (
+              <li key={item.href} className="border-t border-border">
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-11 items-center text-body-sm text-text-secondary"
                 >
                   {item.label}
                 </Link>

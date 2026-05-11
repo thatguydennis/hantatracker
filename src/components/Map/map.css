@@ -104,7 +104,9 @@
   color: var(--text-secondary) !important;
 }
 
-/* Active-case pulsing marker (SVG divIcon container) */
+/* Active-case pulsing marker (SVG divIcon container).
+ * The outer ring uses transform: scale (not animated `r` attribute) — animating
+ * SVG geometry via CSS is unreliable on mobile Safari. Scale is universal. */
 .hanta-pulse {
   background: transparent !important;
   border: none !important;
@@ -117,17 +119,19 @@
 }
 
 .hanta-pulse .pulse-ring {
-  transform-origin: center;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
   animation: hanta-pulse 1.8s ease-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes hanta-pulse {
   0% {
-    r: 8;
+    transform: scale(1);
     opacity: 0.5;
   }
   100% {
-    r: 22;
+    transform: scale(2.75);
     opacity: 0;
   }
 }
@@ -141,7 +145,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hanta-pulse .pulse-ring {
     animation: none;
-    r: 16;
+    transform: scale(2);
     opacity: 0.3;
   }
 }

@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #fafafa;
   --surface: #ffffff;
@@ -51,6 +53,53 @@
   --input: var(--border-default);
   --ring: var(--brand-primary);
   --radius: 0.5rem;
+}
+
+/* Dark mode (soft-dark per design-system.md V2: charcoal #1A1A1A bg, warm white
+ * text; pure black is still forbidden). Activates when `.dark` is on <html>. */
+.dark {
+  --background: #1a1a1a;
+  --surface: #242424;
+  --surface-muted: #2e2e2e;
+
+  --text-primary: #fafaf7;
+  --text-secondary: #a8acaf;
+  --text-tertiary: #7a7d80;
+  --text-inverse: #1a1a1a;
+
+  --brand-primary: #7ba0d4;
+  --brand-soft: #2a3a55;
+  --brand-deep: #b0ceef;
+
+  --alert: #f26261;
+  --alert-soft: #3a1f1f;
+  --alert-deep: #ffa8a7;
+
+  --border-default: #2e2e2e;
+  --border-strong: #4a4a4a;
+  --historical: #7a7d80;
+
+  --shadow-drawer: 0 -8px 24px -8px rgba(0, 0, 0, 0.5);
+  --shadow-popup: 0 4px 16px -4px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 0 0 3px rgba(123, 160, 212, 0.45);
+
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--text-inverse);
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--brand-soft);
+  --accent-foreground: var(--brand-deep);
+  --destructive: var(--alert);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--brand-primary);
 }
 
 @theme inline {
@@ -163,6 +212,11 @@
   }
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+  :where(a, button, [role="button"], input, select, textarea):focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
   }
 }
 

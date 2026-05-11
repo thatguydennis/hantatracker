@@ -8,6 +8,8 @@ import L from "leaflet";
 import { useMemo } from "react";
 import { cruiseData, routeCoords } from "@/data/cruise-data";
 import { RouteLayer } from "./RouteLayer";
+import { DispersalLayer } from "./DispersalLayer";
+import { EndemicLayer } from "./EndemicLayer";
 
 export function HantaMap() {
   const bounds = useMemo(() => {
@@ -34,8 +36,10 @@ export function HantaMap() {
         subdomains={["a", "b", "c", "d"]}
         maxZoom={18}
       />
-      <ZoomControl position="topright" />
+      <EndemicLayer />
       <RouteLayer />
+      <DispersalLayer />
+      <ZoomControl position="topright" />
     </MapContainer>
   );
 }

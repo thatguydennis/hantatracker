@@ -25,6 +25,7 @@ export interface DispersalLocation {
   date: string;
   coords: LatLon;
   evacuees: number | null;
+  active_cases: boolean;
   summary: string;
 }
 

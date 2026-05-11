@@ -128,6 +128,7 @@
       "date": "2026-05-11",
       "coords": [41.2565, -95.9345],
       "evacuees": 18,
+      "active_cases": true,
       "summary": "17 American passengers plus 1 British national arrived for evaluation. At least one tested positive on arrival; 15 were placed in the quarantine unit and 1 in the biocontainment unit."
     },
     {
@@ -137,6 +138,7 @@
       "date": "2026-05-10",
       "coords": [33.7490, -84.3880],
       "evacuees": 2,
+      "active_cases": true,
       "summary": "One symptomatic patient in Emory's biocontainment unit; one asymptomatic close contact under evaluation."
     },
     {
@@ -146,6 +148,7 @@
       "date": "2026-05-10",
       "coords": [40.4168, -3.7038],
       "evacuees": null,
+      "active_cases": true,
       "summary": "Spanish nationals flown from Tenerife to Madrid for monitoring at a military hospital."
     },
     {
@@ -155,6 +158,7 @@
       "date": "2026-05-10",
       "coords": [48.8566, 2.3522],
       "evacuees": 5,
+      "active_cases": true,
       "summary": "Five French nationals evacuated to Paris on May 10. At least one developed symptoms during the flight home."
     },
     {
@@ -164,6 +168,7 @@
       "date": "2026-05-10",
       "coords": [52.3676, 4.9041],
       "evacuees": null,
+      "active_cases": true,
       "summary": "Remaining Dutch passengers and other Europeans flown to the Netherlands for monitoring."
     },
     {
@@ -173,6 +178,7 @@
       "date": "2026-05-10",
       "coords": [48.3320, -70.9967],
       "evacuees": 4,
+      "active_cases": true,
       "summary": "Four Canadian nationals flown into Bagotville, Quebec on May 10, then transferred to British Columbia for at least 21 days of self-isolation."
     }
   ]

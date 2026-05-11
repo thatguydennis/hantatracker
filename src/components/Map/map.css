@@ -103,3 +103,45 @@
 .leaflet-control-attribution a {
   color: var(--text-secondary) !important;
 }
+
+/* Active-case pulsing marker (SVG divIcon container) */
+.hanta-pulse {
+  background: transparent !important;
+  border: none !important;
+  pointer-events: auto;
+}
+
+.hanta-pulse svg {
+  display: block;
+  overflow: visible;
+}
+
+.hanta-pulse .pulse-ring {
+  transform-origin: center;
+  animation: hanta-pulse 1.8s ease-out infinite;
+}
+
+@keyframes hanta-pulse {
+  0% {
+    r: 8;
+    opacity: 0.5;
+  }
+  100% {
+    r: 22;
+    opacity: 0;
+  }
+}
+
+/* Inactive (discharged) dispersal marker */
+.hanta-inactive {
+  background: transparent !important;
+  border: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hanta-pulse .pulse-ring {
+    animation: none;
+    r: 16;
+    opacity: 0.3;
+  }
+}

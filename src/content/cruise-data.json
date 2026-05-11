@@ -1,0 +1,179 @@
+{
+  "outbreak": {
+    "name": "MV Hondius hantavirus outbreak",
+    "year": 2026,
+    "virus_strain": "Andes orthohantavirus",
+    "disease": "Hantavirus pulmonary syndrome (HPS)",
+    "ship": "MV Hondius",
+    "operator": "Oceanwide Expeditions",
+    "ship_flag": "Netherlands",
+    "departure_date": "2026-04-01",
+    "departure_port": "Ushuaia, Argentina",
+    "arrival_date": "2026-05-10",
+    "arrival_port": "Tenerife, Spain",
+    "guests_boarded_ushuaia": 114,
+    "guests_boarded_tristan": 6,
+    "stats_as_of": "2026-05-11",
+    "stats": {
+      "cases_confirmed": 7,
+      "cases_probable": 4,
+      "cases_total": 11,
+      "deaths": 3,
+      "countries_affected": 6
+    }
+  },
+  "route": [
+    {
+      "id": "ushuaia",
+      "name": "Ushuaia, Argentina",
+      "stop_type": "departure",
+      "date": "2026-04-01",
+      "coords": [-54.8019, -68.3030],
+      "summary": "MV Hondius departed homeport with 114 guests on a South Atlantic expedition heading to Antarctic waters and the islands of the mid-Atlantic."
+    },
+    {
+      "id": "antarctic-peninsula",
+      "name": "Antarctic Peninsula",
+      "stop_type": "shore-excursion",
+      "date_range": ["2026-04-03", "2026-04-08"],
+      "coords": [-64.0000, -60.0000],
+      "summary": "Standard expedition cruise activity in Antarctic waters and the South Shetland Islands before the ship turned north toward South Georgia."
+    },
+    {
+      "id": "patient-zero",
+      "name": "Patient zero — first symptoms",
+      "stop_type": "medical-event",
+      "date": "2026-04-06",
+      "coords": [-60.0000, -50.0000],
+      "summary": "Five days into the voyage, a Dutch passenger developed fever, headache, and mild diarrhea — the first documented case. The cause was unknown at the time."
+    },
+    {
+      "id": "south-georgia",
+      "name": "South Georgia (Grytviken)",
+      "stop_type": "shore-excursion",
+      "date_range": ["2026-04-08", "2026-04-11"],
+      "coords": [-54.2811, -36.5092],
+      "summary": "Passengers went ashore for wildlife excursions — penguin colonies, elephant seals, and the historic Grytviken whaling station."
+    },
+    {
+      "id": "first-death",
+      "name": "First death on board",
+      "stop_type": "medical-event",
+      "date": "2026-04-11",
+      "coords": [-50.0000, -30.0000],
+      "summary": "The Dutch man who became patient zero died aboard the ship five days after first showing symptoms. The cause of death was not yet known to be hantavirus."
+    },
+    {
+      "id": "tristan-da-cunha",
+      "name": "Tristan da Cunha",
+      "stop_type": "port-stop",
+      "date_range": ["2026-04-13", "2026-04-15"],
+      "coords": [-37.0686, -12.3115],
+      "summary": "The ship docked at the world's most remote inhabited island. Six additional guests boarded here on April 15."
+    },
+    {
+      "id": "saint-helena",
+      "name": "Saint Helena (Jamestown)",
+      "stop_type": "port-stop",
+      "date_range": ["2026-04-21", "2026-04-24"],
+      "coords": [-15.9251, -5.7180],
+      "summary": "32 guests disembarked at Saint Helena. The body of the Dutch passenger who died on April 11 was removed from the vessel here on April 24. His wife also disembarked, was transferred to Johannesburg, and died there two days later."
+    },
+    {
+      "id": "wife-death",
+      "name": "Second death — Johannesburg",
+      "stop_type": "medical-event",
+      "date": "2026-04-26",
+      "coords": [-26.2041, 28.0473],
+      "summary": "The wife of patient zero died in hospital in Johannesburg, South Africa, after being evacuated from Saint Helena. This was the second death linked to the outbreak."
+    },
+    {
+      "id": "ascension",
+      "name": "Ascension Island",
+      "stop_type": "port-stop",
+      "date": "2026-04-27",
+      "coords": [-7.9467, -14.3559],
+      "summary": "Ship departed Ascension Island. Additional crew and passengers had started showing symptoms by this point."
+    },
+    {
+      "id": "who-notified",
+      "name": "WHO notified",
+      "stop_type": "milestone",
+      "date": "2026-05-02",
+      "coords": [-15.0000, -20.0000],
+      "summary": "The World Health Organization was notified of a cluster of severe acute respiratory illness aboard a cruise ship in the Atlantic. Andes hantavirus was later confirmed as the cause."
+    },
+    {
+      "id": "cape-verde",
+      "name": "Praia, Cape Verde",
+      "stop_type": "port-stop",
+      "date": "2026-05-03",
+      "coords": [14.9333, -23.5133],
+      "summary": "Ship docked at the Cape Verdean capital. By this point the hantavirus diagnosis had been confirmed and emergency response was active."
+    },
+    {
+      "id": "tenerife",
+      "name": "Tenerife, Canary Islands",
+      "stop_type": "arrival",
+      "date": "2026-05-10",
+      "coords": [28.1235, -16.5417],
+      "summary": "MV Hondius docked at the Port of Granadilla. Passenger evacuation by charter and military aircraft began immediately, sending people to their home countries for medical observation."
+    }
+  ],
+  "dispersal": [
+    {
+      "id": "omaha",
+      "name": "Omaha, Nebraska, USA",
+      "facility": "University of Nebraska Medical Center · National Quarantine Unit",
+      "date": "2026-05-11",
+      "coords": [41.2565, -95.9345],
+      "evacuees": 18,
+      "summary": "17 American passengers plus 1 British national arrived for evaluation. At least one tested positive on arrival; 15 were placed in the quarantine unit and 1 in the biocontainment unit."
+    },
+    {
+      "id": "atlanta",
+      "name": "Atlanta, Georgia, USA",
+      "facility": "Emory University Hospital · Serious Communicable Diseases Unit",
+      "date": "2026-05-10",
+      "coords": [33.7490, -84.3880],
+      "evacuees": 2,
+      "summary": "One symptomatic patient in Emory's biocontainment unit; one asymptomatic close contact under evaluation."
+    },
+    {
+      "id": "madrid",
+      "name": "Madrid, Spain",
+      "facility": "Military hospital",
+      "date": "2026-05-10",
+      "coords": [40.4168, -3.7038],
+      "evacuees": null,
+      "summary": "Spanish nationals flown from Tenerife to Madrid for monitoring at a military hospital."
+    },
+    {
+      "id": "paris",
+      "name": "Paris, France",
+      "facility": "Designated hospital",
+      "date": "2026-05-10",
+      "coords": [48.8566, 2.3522],
+      "evacuees": 5,
+      "summary": "Five French nationals evacuated to Paris on May 10. At least one developed symptoms during the flight home."
+    },
+    {
+      "id": "netherlands",
+      "name": "Netherlands",
+      "facility": "Designated hospital",
+      "date": "2026-05-10",
+      "coords": [52.3676, 4.9041],
+      "evacuees": null,
+      "summary": "Remaining Dutch passengers and other Europeans flown to the Netherlands for monitoring."
+    },
+    {
+      "id": "canada",
+      "name": "Bagotville, Quebec → British Columbia, Canada",
+      "facility": "Self-isolation, minimum 21 days",
+      "date": "2026-05-10",
+      "coords": [48.3320, -70.9967],
+      "evacuees": 4,
+      "summary": "Four Canadian nationals flown into Bagotville, Quebec on May 10, then transferred to British Columbia for at least 21 days of self-isolation."
+    }
+  ]
+}

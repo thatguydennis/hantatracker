@@ -236,3 +236,12 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Hide the Buy Me a Coffee floating widget on mobile — would overlap the
+ * bottom drawer. The footer has a text "Support" link as the mobile path. */
+@media (max-width: 1023px) {
+  #bmc-wbtn,
+  div[id^="bmc-wbtn"] {
+    display: none !important;
+  }
+}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { TopBar } from "@/components/Nav/TopBar";
 import { Footer } from "@/components/Nav/Footer";
 import "./globals.css";
@@ -97,6 +98,20 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Script
+          id="bmc-widget"
+          src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+          strategy="afterInteractive"
+          data-name="BMC-Widget"
+          data-cfasync="false"
+          data-id="denniscomandante"
+          data-description="Support me on Buy me a coffee!"
+          data-message="If you think my work helped you, a coffee goes a long way!"
+          data-color="#FF5F5F"
+          data-position="Right"
+          data-x_margin="18"
+          data-y_margin="18"
+        />
       </body>
     </html>
   );

@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+
+export const FEEDBACK_EMAIL = "worksbydennis@gmail.com";
+const feedbackMailto = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent(
+  "Hantavirus tracker feedback",
+)}`;
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -49,6 +54,14 @@ export function TopBar() {
         </nav>
 
         <div className="flex items-center gap-1">
+          <a
+            href={feedbackMailto}
+            aria-label="Send feedback by email"
+            title="Send feedback"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-text-primary hover:bg-surface-muted md:h-9 md:w-9"
+          >
+            <MessageSquare size={20} strokeWidth={1.5} aria-hidden />
+          </a>
           <ThemeToggle />
           <button
             type="button"

@@ -1,5 +1,6 @@
 import { readContent, splitByHr } from "@/lib/content";
 import { FaqTabs } from "@/components/Faq/FaqTabs";
+import { PageShell } from "@/components/PageShell";
 
 interface FaqSection {
   title: string;
@@ -23,23 +24,17 @@ export default async function FaqPage() {
   const sections = parseSections(md);
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6 md:px-6 md:py-10">
-      <h1 className="text-h1 font-semibold text-text-primary md:text-display">
-        FAQ
-      </h1>
-      <p className="mt-2 max-w-2xl text-body text-text-secondary">
-        Answers about this site, the virus, and the MV Hondius outbreak.
-      </p>
-
-      <div className="mt-8">
-        {sections.length > 0 ? (
-          <FaqTabs sections={sections} />
-        ) : (
-          <p className="text-body text-text-secondary">
-            FAQ content not available.
-          </p>
-        )}
-      </div>
-    </div>
+    <PageShell
+      title="FAQ"
+      subtitle="Answers about this site, the virus, and the MV Hondius outbreak."
+    >
+      {sections.length > 0 ? (
+        <FaqTabs sections={sections} />
+      ) : (
+        <p className="text-body text-text-secondary">
+          FAQ content not available.
+        </p>
+      )}
+    </PageShell>
   );
 }

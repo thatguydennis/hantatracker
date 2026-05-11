@@ -49,10 +49,20 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="mailto:contact@hantavirus.example"
+                href="mailto:worksbydennis@gmail.com?subject=Hantavirus%20tracker%20feedback"
                 className="text-text-secondary hover:text-text-primary"
               >
                 Contact
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.buymeacoffee.com/denniscomandante"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-text-primary"
+              >
+                Support
               </a>
             </li>
           </ul>

@@ -1,5 +1,6 @@
 import { getArticles, timeAgo } from "@/lib/articles";
 import { NewsFilters } from "@/components/News/NewsFilters";
+import { PageShell } from "@/components/PageShell";
 
 export const revalidate = 300;
 
@@ -42,22 +43,15 @@ export default async function NewsPage({
     : articles;
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6 md:px-6 md:py-10">
-      <h1 className="text-h1 font-semibold text-text-primary md:text-display">
-        News
-      </h1>
-      <p className="mt-2 text-body text-text-secondary">
-        Headlines from health authorities and major outlets, filtered to
-        hantavirus coverage.
-      </p>
-
-      <div className="mt-6">
-        <NewsFilters
-          activeSource={params.source}
-          activeSince={params.since}
-          query={params.q}
-        />
-      </div>
+    <PageShell
+      title="News"
+      subtitle="Headlines from health authorities and major outlets, filtered to hantavirus coverage."
+    >
+      <NewsFilters
+        activeSource={params.source}
+        activeSince={params.since}
+        query={params.q}
+      />
 
       {!configured ? (
         <div className="mt-6 rounded-lg border border-border bg-surface p-4 text-body-sm text-text-secondary">
@@ -100,6 +94,6 @@ export default async function NewsPage({
           ))}
         </ul>
       )}
-    </div>
+    </PageShell>
   );
 }

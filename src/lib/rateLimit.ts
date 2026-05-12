@@ -5,14 +5,21 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  * Tiny Supabase-backed rate limiter. Free, no Upstash / Redis dependency.
  *
  * - Keys are derived from request IP + an environment salt, then SHA-256'd.
- *   Raw IPs are never stored.
+ *   Raw IPs are never stored. Set RATE_LIMIT_SALT in prod (see .env.example).
  * - Each call inserts one row and counts hits inside the window.
- * - Old rows older than 2× the longest window are pruned probabilistically
- *   (1-in-20 calls trigger a delete) so the table doesn't grow forever.
+ * - Fails OPEN: if the count query errors (table missing, DB unreachable),
+ *   the request is allowed through. Better to serve traffic than reject
+ *   legitimate users when the limiter itself is broken.
+ * - Old rows are pruned probabilistically (~1-in-50 requests) so the table
+ *   doesn't grow forever. The delete is fire-and-forget; on Vercel it may
+ *   be cancelled when the function terminates, but at our scale the next
+ *   request that gets picked will finish the job. Acceptable trade-off
+ *   vs. a dedicated cron.
  */
 
 const SALT = process.env.RATE_LIMIT_SALT ?? "hanta-rate-limit-default-salt";
 const PRUNE_OLDER_THAN_HOURS = 24;
+const PRUNE_PROBABILITY = 0.02;
 
 export function clientKey(req: Request): string {
   // Vercel sets x-forwarded-for; fall back to a remote-addr proxy header.
@@ -39,12 +46,21 @@ export async function rateLimit(
 ): Promise<RateLimitResult> {
   const windowStart = new Date(Date.now() - options.windowMs);
 
-  const { count } = await supabase
+  const { count, error } = await supabase
     .from("rate_limits")
     .select("id", { head: true, count: "exact" })
     .eq("client_key", key)
     .eq("route", route)
     .gte("hit_at", windowStart.toISOString());
+
+  // Fail open on DB error — see file-level comment.
+  if (error) {
+    return {
+      allowed: true,
+      remaining: options.max,
+      resetAt: new Date(Date.now() + options.windowMs),
+    };
+  }
 
   const hits = count ?? 0;
   const allowed = hits < options.max;
@@ -54,7 +70,7 @@ export async function rateLimit(
   }
 
   // Probabilistic prune so the table doesn't grow forever.
-  if (Math.random() < 0.05) {
+  if (Math.random() < PRUNE_PROBABILITY) {
     const cutoff = new Date(
       Date.now() - PRUNE_OLDER_THAN_HOURS * 60 * 60 * 1000,
     ).toISOString();

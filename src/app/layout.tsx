@@ -3,6 +3,7 @@ import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { TopBar } from "@/components/Nav/TopBar";
 import { Footer } from "@/components/Nav/Footer";
 import { BmcWidget } from "@/components/BmcWidget";
+import { getSiteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,11 +22,7 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -96,10 +93,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: themeInitScript }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-text-primary">
         <a

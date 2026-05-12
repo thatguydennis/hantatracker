@@ -15,6 +15,9 @@ export function useTheme(): Theme {
   const [theme, setTheme] = useState<Theme>(readDocTheme);
 
   useEffect(() => {
+    // Initial sync from DOM — useState's lazy initialiser can't read the
+    // class during SSR. Then subscribe to .dark class flips on <html>.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(readDocTheme());
     const root = document.documentElement;
     const observer = new MutationObserver(() => {

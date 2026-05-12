@@ -12,6 +12,10 @@ export function FeedbackForm() {
   // client immediately patches it in.
   const [sourcePath, setSourcePath] = useState("");
   useEffect(() => {
+    // Reading client-only state (window.location) on mount. Lazy useState
+    // initialisers run during SSR where `window` is undefined, so this has
+    // to be in an effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSourcePath(window.location.pathname);
   }, []);
 

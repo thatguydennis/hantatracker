@@ -1,10 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+import { getSiteUrl } from "@/lib/siteUrl";
 
 const routes: Array<{
   path: string;
@@ -21,6 +16,7 @@ const routes: Array<{
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
   const now = new Date();
   return routes.map((r) => ({
     url: `${siteUrl}${r.path}`,

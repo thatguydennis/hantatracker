@@ -16,11 +16,14 @@ export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    // Reads localStorage + matchMedia, both client-only. Lazy useState
+    // initialisers can't see them during SSR, so we sync on mount.
     const stored = localStorage.getItem(STORAGE_KEY);
     const systemDark =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
     const dark = stored ? stored === "dark" : systemDark;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(dark);
     applyTheme(dark ? "dark" : "light");
     setMounted(true);

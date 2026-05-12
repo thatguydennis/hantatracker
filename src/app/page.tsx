@@ -14,6 +14,9 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 export default async function HomePage() {
   // Home only shows today's updates (last 24h), capped at 7. Full archive
   // lives at /news — UpdatesList renders a "See all news" footer link.
+  // Date.now() is intentionally request-time here; the page revalidates
+  // every 5 minutes so "today" stays fresh.
+  // eslint-disable-next-line react-hooks/purity
   const since = new Date(Date.now() - ONE_DAY_MS).toISOString();
   const { articles, configured } = await getArticles({
     limit: HOME_UPDATES_LIMIT,

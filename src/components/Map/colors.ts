@@ -12,4 +12,6 @@ export const mapColors = {
   // Used to flag dispersal locations with new cases since the last bulletin.
   // Sits as an outer ring on top of the standard red pulse marker.
   newCases: "#1FA67A",
+  // Translucent fill behind the "+N new" badge on dispersal popups.
+  newCasesSoft: "rgba(31, 166, 122, 0.16)",
 } as const;

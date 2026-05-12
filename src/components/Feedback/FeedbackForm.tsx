@@ -1,12 +1,19 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export function FeedbackForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // Read window.location after mount only — avoids a hydration mismatch
+  // when the form is rendered on the server with an empty value and the
+  // client immediately patches it in.
+  const [sourcePath, setSourcePath] = useState("");
+  useEffect(() => {
+    setSourcePath(window.location.pathname);
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -126,13 +133,7 @@ export function FeedbackForm() {
         </div>
       </div>
 
-      <input
-        type="hidden"
-        name="source"
-        value={
-          typeof window !== "undefined" ? window.location.pathname : ""
-        }
-      />
+      <input type="hidden" name="source" value={sourcePath} readOnly />
 
       <div className="flex flex-wrap items-center gap-3">
         <button

@@ -108,7 +108,7 @@ export function Legend() {
                     cy="0"
                     r="3.5"
                     fill={mapColors.historical}
-                    stroke="#ffffff"
+                    stroke={mapColors.surface}
                     strokeWidth="1"
                   />
                 </svg>
@@ -123,7 +123,7 @@ export function Legend() {
                     cx="0"
                     cy="0"
                     r="4"
-                    fill="#ffffff"
+                    fill={mapColors.surface}
                     stroke={mapColors.brandPrimary}
                     strokeWidth="1.8"
                   />

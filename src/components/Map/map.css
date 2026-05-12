@@ -91,9 +91,9 @@
   border-bottom-right-radius: var(--radius-md);
 }
 
-/* Attribution */
+/* Attribution. Uses the token so it reads correctly in dark mode. */
 .leaflet-control-attribution {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: color-mix(in srgb, var(--surface) 85%, transparent) !important;
   color: var(--text-tertiary) !important;
   font-size: 10px !important;
   padding: 2px 6px !important;

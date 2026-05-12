@@ -11,6 +11,18 @@ function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 }
 
+// Length-prefixed constant-time string compare — neutralises the timing
+// side-channel on the bearer secret check. Edge runtimes don't always ship
+// `crypto.timingSafeEqual`, so we roll a tiny version here.
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
   if (!secret) {
@@ -20,7 +32,7 @@ export async function GET(request: Request) {
     );
   }
   const auth = request.headers.get("authorization") ?? "";
-  if (auth !== `Bearer ${secret}`) return unauthorized();
+  if (!safeEqual(auth, `Bearer ${secret}`)) return unauthorized();
 
   const supabase = serviceSupabase();
   if (!supabase) {

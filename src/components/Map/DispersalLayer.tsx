@@ -32,7 +32,7 @@ function buildIcon(
          <circle cx="0" cy="0" r="8" fill="${fill}" />
        </svg>`
     : `<svg width="24" height="24" viewBox="-12 -12 24 24" aria-hidden="true">
-         <circle cx="0" cy="0" r="6" fill="${fill}" stroke="#ffffff" stroke-width="1" />
+         <circle cx="0" cy="0" r="6" fill="${fill}" stroke="${mapColors.surface}" stroke-width="1" />
        </svg>`;
 
   return L.divIcon({
@@ -56,8 +56,8 @@ function DispersalPopup({ location }: { location: DispersalLocation }) {
           <span
             className="rounded-sm px-1.5 py-0.5 text-meta font-semibold"
             style={{
-              backgroundColor: "rgba(31, 166, 122, 0.16)",
-              color: "#1FA67A",
+              backgroundColor: mapColors.newCasesSoft,
+              color: mapColors.newCases,
             }}
           >
             +{newCases} new

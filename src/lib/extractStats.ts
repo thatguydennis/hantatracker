@@ -1,17 +1,18 @@
 /**
  * Best-effort stats extraction from RSS article titles + summaries.
  *
- * Approach:
- *   - For each article, run regex passes for cases / deaths / countries.
- *   - Patterns require the number to be within a short window of the keyword
- *     so dates and ages don't false-match (e.g. "17-year-old", "May 11").
- *   - Outbreaks only grow: when comparing across articles, keep the maximum
- *     reported value rather than the latest one (which might be a partial
- *     count or quoting an older bulletin).
- *
- * This is intentionally conservative. Misses are preferable to false
- * positives. If a value can't be extracted with confidence we leave the
- * previous stored value in place.
+ * Guarded by:
+ *  - Each candidate number must sit within ~30 chars of its keyword.
+ *  - Numbers must fall inside realistic outbreak ranges (a hantavirus cluster
+ *    of 5,000 cases is implausible; 150 deaths even more so).
+ *  - "11-year-old" / "May 11" patterns are rejected.
+ *  - Snapshots are only saved when `cases_total` is found. Deaths and
+ *    countries are then pulled from the SAME article — never aggregated
+ *    across feeds — so a snapshot stays internally consistent. Mixing
+ *    cases from one outlet with deaths from another causes runaway counts
+ *    when one outlet quotes historical context.
+ *  - When comparing multiple bulletins, we keep the one with the highest
+ *    case count (outbreaks only grow); never max separately by field.
  */
 
 export interface ExtractedStats {
@@ -21,30 +22,27 @@ export interface ExtractedStats {
 }
 
 export interface ExtractionInput {
+  id?: string;
   title: string;
   summary: string | null;
+  url?: string;
 }
 
-// Plausible outbreak ranges. Anything outside is rejected as noise.
 const RANGE = {
-  cases: { min: 1, max: 5_000 },
-  deaths: { min: 1, max: 500 },
-  countries: { min: 1, max: 60 },
+  cases: { min: 1, max: 1_000 },
+  deaths: { min: 1, max: 50 },
+  countries: { min: 1, max: 30 },
 } as const;
 
-interface PatternConfig {
-  // The full match must include both a number and a keyword. We use
-  // capture-or-look-ahead patterns to allow the number to come before or
-  // after the keyword as long as they're within ~30 chars of each other.
-  patterns: RegExp[];
-  range: { min: number; max: number };
-}
-
-// Compile time check: keywords near numbers, with a small word-distance gap.
 const numberClose = (kw: string) =>
   new RegExp(`(\\d{1,5})[^\\d\\n]{0,30}${kw}`, "gi");
 const numberCloseRev = (kw: string) =>
   new RegExp(`${kw}[^\\d\\n]{0,30}(\\d{1,5})`, "gi");
+
+interface PatternConfig {
+  patterns: RegExp[];
+  range: { min: number; max: number };
+}
 
 const configs: Record<keyof ExtractedStats, PatternConfig> = {
   cases_total: {
@@ -55,15 +53,15 @@ const configs: Record<keyof ExtractedStats, PatternConfig> = {
       numberCloseRev(
         "(?:cases?\\s+(?:of\\s+)?hantavirus|cases?\\s+confirmed)",
       ),
-      numberClose("infected"),
+      numberClose("infected\\b"),
       numberClose("(?:patients?|people)\\s+(?:infected|hospitali[sz]ed)"),
     ],
     range: RANGE.cases,
   },
   deaths: {
     patterns: [
-      numberClose("(?:deaths?|dead|fatalities|died|killed|fatal)\\b"),
-      numberCloseRev("(?:dead|deaths?|fatalities)"),
+      numberClose("(?:deaths?|dead|fatalities|died|killed)\\b"),
+      numberCloseRev("(?:dead|deaths?|fatalities)\\b"),
     ],
     range: RANGE.deaths,
   },
@@ -75,6 +73,10 @@ const configs: Record<keyof ExtractedStats, PatternConfig> = {
     range: RANGE.countries,
   },
 };
+
+// Reject text that looks like historical context — "since 1993", "estimated
+// total", "annually", etc. Those numbers are cumulative, not current.
+const HISTORICAL_CONTEXT = /(since\s+19|since\s+20\d\d|historical|annually|every year|estimated total|cumulative|to date|all time)/i;
 
 function extractField(
   text: string,
@@ -89,9 +91,15 @@ function extractField(
       const n = Number(m[1]);
       if (!Number.isFinite(n)) continue;
       if (n < cfg.range.min || n > cfg.range.max) continue;
-      // Reject "11-year-old" style — number immediately followed by hyphen + year/old
+      // Reject ages like "17-year-old"
       const tail = text.slice(m.index, m.index + m[0].length + 12);
       if (/^\d+\s*[-–]\s*year/i.test(tail)) continue;
+      // Reject when the match is inside historical context (within ±40 chars)
+      const ctx = text.slice(
+        Math.max(0, m.index - 40),
+        m.index + m[0].length + 40,
+      );
+      if (HISTORICAL_CONTEXT.test(ctx)) continue;
       if (best === null || n > best) best = n;
     }
   }
@@ -109,30 +117,40 @@ export function extractFromArticle(
   };
 }
 
-/** Reduce across many articles — take the highest value per field. */
-export function aggregateAcrossArticles(
+export interface AnchoredSnapshot extends ExtractedStats {
+  source_article_id: string | null;
+  source_title: string | null;
+  source_url: string | null;
+}
+
+/**
+ * Pick the most credible single article: the one reporting the highest
+ * `cases_total`. Use that article's own deaths/countries too. If no article
+ * has a cases number, return null — no snapshot is written.
+ */
+export function pickAnchorSnapshot(
   articles: ExtractionInput[],
-): ExtractedStats & { hits: number } {
-  let cases_total: number | null = null;
-  let deaths: number | null = null;
-  let countries: number | null = null;
-  let hits = 0;
+): AnchoredSnapshot | null {
+  let bestArticle: ExtractionInput | null = null;
+  let bestStats: ExtractedStats | null = null;
 
   for (const a of articles) {
     const s = extractFromArticle(a);
-    if (s.cases_total !== null) {
-      cases_total =
-        cases_total === null ? s.cases_total : Math.max(cases_total, s.cases_total);
-      hits += 1;
-    }
-    if (s.deaths !== null) {
-      deaths = deaths === null ? s.deaths : Math.max(deaths, s.deaths);
-    }
-    if (s.countries !== null) {
-      countries =
-        countries === null ? s.countries : Math.max(countries, s.countries);
+    if (s.cases_total === null) continue;
+    if (bestStats === null || s.cases_total > (bestStats.cases_total ?? 0)) {
+      bestArticle = a;
+      bestStats = s;
     }
   }
 
-  return { cases_total, deaths, countries, hits };
+  if (!bestArticle || !bestStats) return null;
+
+  return {
+    cases_total: bestStats.cases_total,
+    deaths: bestStats.deaths,
+    countries: bestStats.countries,
+    source_article_id: bestArticle.id ?? null,
+    source_title: bestArticle.title,
+    source_url: bestArticle.url ?? null,
+  };
 }

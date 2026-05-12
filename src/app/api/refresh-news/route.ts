@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { serviceSupabase } from "@/lib/supabase";
 import { fetchAllFeeds } from "@/lib/parser";
-import { aggregateAcrossArticles, extractFromArticle } from "@/lib/extractStats";
+import { pickAnchorSnapshot } from "@/lib/extractStats";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,16 +63,9 @@ export async function GET(request: Request) {
     else skipped += 1;
   }
 
-  // Stats extraction pass: pull the most recent ~50 articles, regex out
-  // cases / deaths / countries, store a snapshot if the totals changed.
-  let statsUpdate: {
-    cases_total: number | null;
-    deaths: number | null;
-    new_cases: number | null;
-    countries: number | null;
-    source_title?: string;
-    source_url?: string;
-  } | null = null;
+  // Stats extraction: pick a single anchor article (highest cases_total) and
+  // use its deaths/countries from the same text — no cross-article averaging.
+  let statsUpdate: Record<string, unknown> | null = null;
 
   try {
     const { data: recent } = await supabase
@@ -88,10 +81,9 @@ export async function GET(request: Request) {
       url: string;
     }>;
 
-    const agg = aggregateAcrossArticles(recentArticles);
+    const anchor = pickAnchorSnapshot(recentArticles);
 
-    if (agg.cases_total !== null || agg.deaths !== null) {
-      // Previous snapshot (if any) to compute new_cases delta.
+    if (anchor) {
       const { data: prev } = await supabase
         .from("outbreak_stats")
         .select("cases_total")
@@ -101,37 +93,25 @@ export async function GET(request: Request) {
         prev && prev.length > 0
           ? ((prev[0] as { cases_total: number | null }).cases_total ?? 0)
           : 0;
-      const newCases =
-        agg.cases_total !== null
-          ? Math.max(0, agg.cases_total - prevTotal)
-          : 0;
+      const newCases = Math.max(0, (anchor.cases_total ?? 0) - prevTotal);
 
-      // Find the article that yielded the highest cases number for attribution.
-      let sourceArticleId: string | null = null;
-      let sourceTitle: string | null = null;
-      let sourceUrl: string | null = null;
-      if (agg.cases_total !== null) {
-        for (const a of recentArticles) {
-          const s = extractFromArticle(a);
-          if (s.cases_total === agg.cases_total) {
-            sourceArticleId = a.id;
-            sourceTitle = a.title;
-            sourceUrl = a.url;
-            break;
-          }
-        }
-      }
+      // Sanity guard: never insert a snapshot whose deaths exceed cases.
+      const deathsClean =
+        anchor.deaths !== null && anchor.cases_total !== null &&
+        anchor.deaths <= anchor.cases_total
+          ? anchor.deaths
+          : null;
 
       const { error: insErr } = await supabase
         .from("outbreak_stats")
         .insert({
-          cases_total: agg.cases_total,
-          deaths: agg.deaths,
+          cases_total: anchor.cases_total,
+          deaths: deathsClean,
           new_cases: newCases,
-          countries: agg.countries,
-          source_article_id: sourceArticleId,
-          source_title: sourceTitle,
-          source_url: sourceUrl,
+          countries: anchor.countries,
+          source_article_id: anchor.source_article_id,
+          source_title: anchor.source_title,
+          source_url: anchor.source_url,
         });
 
       if (insErr) {
@@ -142,12 +122,12 @@ export async function GET(request: Request) {
         });
       } else {
         statsUpdate = {
-          cases_total: agg.cases_total,
-          deaths: agg.deaths,
+          cases_total: anchor.cases_total,
+          deaths: deathsClean,
           new_cases: newCases,
-          countries: agg.countries,
-          source_title: sourceTitle ?? undefined,
-          source_url: sourceUrl ?? undefined,
+          countries: anchor.countries,
+          source_title: anchor.source_title,
+          source_url: anchor.source_url,
         };
       }
     }

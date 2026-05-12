@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { TopBar } from "@/components/Nav/TopBar";
 import { Footer } from "@/components/Nav/Footer";
-import { SupportButton } from "@/components/SupportButton";
+import { BmcWidget } from "@/components/BmcWidget";
 import "./globals.css";
 
 const inter = Inter({
@@ -111,7 +111,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <SupportButton />
+        <BmcWidget />
       </body>
     </html>
   );

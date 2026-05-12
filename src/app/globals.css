@@ -261,3 +261,17 @@
     display: none;
   }
 }
+
+/* Lift the Buy Me a Coffee widget above the bottom drawer on mobile.
+ * The widget is positioned fixed by its own script; we override `bottom`
+ * via CSS so it sits 210px from the bottom (clears the 198px drawer peek).
+ * The widget injects either #bmc-wbtn-container or a bmc- prefixed element. */
+@media (max-width: 1023px) {
+  #bmc-wbtn,
+  div[id^="bmc-wbtn"],
+  #BMC-Widget,
+  [data-name="BMC-Widget"]:not(script),
+  div[class*="bmc-widget"] {
+    bottom: 210px !important;
+  }
+}

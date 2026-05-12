@@ -245,33 +245,3 @@
   }
 }
 
-/* Mobile-locked layout: on /, body fills the viewport, page does not scroll;
- * only the map (Leaflet) and the drawer's article list scroll on their own.
- * Footer is hidden on mobile home — its links live in the TopBar menu and
- * footer disclaimers reappear on the other routes. */
-@media (max-width: 1023px) {
-  body.mobile-fixed {
-    overflow: hidden;
-    height: 100dvh;
-    position: fixed;
-    inset: 0;
-    width: 100%;
-  }
-  body.mobile-fixed > footer {
-    display: none;
-  }
-}
-
-/* Lift the Buy Me a Coffee widget above the bottom drawer on mobile.
- * The widget is positioned fixed by its own script; we override `bottom`
- * via CSS so it sits 210px from the bottom (clears the 198px drawer peek).
- * The widget injects either #bmc-wbtn-container or a bmc- prefixed element. */
-@media (max-width: 1023px) {
-  #bmc-wbtn,
-  div[id^="bmc-wbtn"],
-  #BMC-Widget,
-  [data-name="BMC-Widget"]:not(script),
-  div[class*="bmc-widget"] {
-    bottom: 210px !important;
-  }
-}

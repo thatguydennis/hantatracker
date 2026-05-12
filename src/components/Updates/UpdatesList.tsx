@@ -3,20 +3,21 @@ import { UpdateItem, type UpdateData } from "@/components/Drawer/UpdateItem";
 interface UpdatesListProps {
   updates: UpdateData[];
   loading?: boolean;
+  className?: string;
 }
 
-export function UpdatesList({ updates, loading }: UpdatesListProps) {
+export function UpdatesList({ updates, loading, className }: UpdatesListProps) {
   return (
     <section
       aria-label="Latest updates"
-      className="overflow-hidden rounded-lg border border-border bg-surface"
+      className={`flex flex-col overflow-hidden rounded-lg border border-border bg-surface ${className ?? ""}`}
     >
-      <header className="flex items-center justify-between border-b border-border px-4 py-3">
+      <header className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
         <h2 className="text-h3 font-semibold text-text-primary">
           Latest updates
         </h2>
       </header>
-      <div className="max-h-[calc(100vh-12rem)] overflow-y-auto">
+      <div className="flex-1 overflow-y-auto">
         {loading ? (
           <div className="px-4 py-6 text-body-sm text-text-tertiary">
             Loading updates…

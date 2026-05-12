@@ -1,4 +1,4 @@
-import { cruiseData } from "@/data/cruise-data";
+import { getOutbreakStats } from "@/lib/stats";
 
 interface StatProps {
   value: number;
@@ -29,8 +29,8 @@ function Stat({ value, label, emphasis }: StatProps) {
   );
 }
 
-export function StatsBar() {
-  const { stats } = cruiseData.outbreak;
+export async function StatsBar() {
+  const stats = await getOutbreakStats();
 
   return (
     <section
@@ -40,7 +40,7 @@ export function StatsBar() {
       <Stat value={stats.cases_total} label="Total cases" emphasis />
       <Stat value={stats.deaths} label="Deaths" emphasis />
       <Stat value={stats.new_cases} label="New cases" emphasis />
-      <Stat value={stats.countries_affected} label="Countries" />
+      <Stat value={stats.countries} label="Countries" />
     </section>
   );
 }

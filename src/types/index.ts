@@ -26,6 +26,8 @@ export interface DispersalLocation {
   coords: LatLon;
   evacuees: number | null;
   active_cases: boolean;
+  /** Number of new cases reported at this location since the last bulletin. */
+  new_cases?: number;
   summary: string;
 }
 

@@ -10,13 +10,25 @@ import type { DispersalLocation, RouteStop } from "@/types";
 const tenerifeStop = (): RouteStop | undefined =>
   cruiseData.route.find((s) => s.id === "tenerife");
 
-function buildIcon(active: boolean, index: number): L.DivIcon {
+function buildIcon(
+  active: boolean,
+  hasNewCases: boolean,
+  index: number,
+): L.DivIcon {
   const delay = (index * 0.3).toFixed(2);
   const fill = active ? mapColors.alert : mapColors.historical;
+
+  // Active marker: pulse + solid center. If the location has new cases since
+  // the last bulletin, an additional green ring sits between them so the
+  // "new" signal reads at a glance.
+  const newRing = hasNewCases
+    ? `<circle cx="0" cy="0" r="13" fill="none" stroke="${mapColors.newCases}" stroke-width="2.5" />`
+    : "";
 
   const html = active
     ? `<svg width="48" height="48" viewBox="-24 -24 48 48" aria-hidden="true">
          <circle class="pulse-ring" cx="0" cy="0" r="8" fill="${fill}" style="animation-delay: ${delay}s" />
+         ${newRing}
          <circle cx="0" cy="0" r="8" fill="${fill}" />
        </svg>`
     : `<svg width="24" height="24" viewBox="-12 -12 24 24" aria-hidden="true">
@@ -33,10 +45,24 @@ function buildIcon(active: boolean, index: number): L.DivIcon {
 }
 
 function DispersalPopup({ location }: { location: DispersalLocation }) {
+  const newCases = location.new_cases ?? 0;
   return (
     <div className="min-w-[220px] max-w-[280px]">
-      <div className="text-meta uppercase tracking-wide text-text-tertiary">
-        {location.active_cases ? "Active cases" : "Discharged"}
+      <div className="flex items-center gap-2">
+        <span className="text-meta uppercase tracking-wide text-text-tertiary">
+          {location.active_cases ? "Active cases" : "Discharged"}
+        </span>
+        {newCases > 0 && (
+          <span
+            className="rounded-sm px-1.5 py-0.5 text-meta font-semibold"
+            style={{
+              backgroundColor: "rgba(31, 166, 122, 0.16)",
+              color: "#1FA67A",
+            }}
+          >
+            +{newCases} new
+          </span>
+        )}
       </div>
       <h3 className="mt-1 text-h3 font-semibold text-text-primary">
         {location.name}
@@ -82,7 +108,11 @@ export function DispersalLayer() {
         />
       ))}
       {cruiseData.dispersal.map((d, i) => (
-        <Marker key={d.id} position={d.coords} icon={buildIcon(d.active_cases, i)}>
+        <Marker
+          key={d.id}
+          position={d.coords}
+          icon={buildIcon(d.active_cases, (d.new_cases ?? 0) > 0, i)}
+        >
           <Popup maxWidth={300} minWidth={240} autoPan>
             <DispersalPopup location={d} />
           </Popup>

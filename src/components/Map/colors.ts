@@ -9,4 +9,7 @@ export const mapColors = {
   alertSoft: "#FCE5E5",
   historical: "#8A95A4",
   surface: "#FFFFFF",
+  // Used to flag dispersal locations with new cases since the last bulletin.
+  // Sits as an outer ring on top of the standard red pulse marker.
+  newCases: "#1FA67A",
 } as const;

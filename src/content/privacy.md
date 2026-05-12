@@ -20,6 +20,8 @@ No cookies are set by this site. The browser may receive cookies from Vercel and
 
 This site is hosted on Vercel and pulls map tiles from CARTO. RSS feed contents come from the original publishers (WHO, CDC, ECDC, PAHO, BBC, Reuters, and others). Article links you click navigate away from this site to those publishers' websites, which set their own cookies and tracking.
 
-## Contact
+## Feedback submissions
 
-To request a correction or report an issue, use the contact link in the footer. This site has no other communication channel.
+The site has a feedback form on the `/feedback` page. When you submit it, your message is saved to the same database the site uses for news cache, and only the site owner can read it through the database admin panel. Name and email fields on the form are optional — leave them blank if you don't want a reply.
+
+Submissions are kept for as long as needed to respond and follow up on corrections. They are not shared with anyone else and are not used for analytics or marketing.

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { feeds } from "@/lib/feeds";
+import { ChevronDown } from "lucide-react";
 
 interface NewsFiltersProps {
   activeSource?: string;
@@ -14,9 +15,7 @@ const sinceOptions: Array<{ value: string; label: string }> = [
   { value: "30d", label: "Last 30 days" },
 ];
 
-function buildHref(
-  params: Record<string, string | undefined>,
-): string {
+function buildHref(params: Record<string, string | undefined>): string {
   const search = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
     if (v && v.length > 0) search.set(k, v);
@@ -25,17 +24,97 @@ function buildHref(
   return qs ? `/news?${qs}` : "/news";
 }
 
-export function NewsFilters({
+function chipClass(active: boolean): string {
+  return `rounded-sm px-2 py-1 text-meta font-medium ${
+    active
+      ? "bg-brand-primary text-text-inverse"
+      : "bg-surface-muted text-text-secondary hover:text-text-primary"
+  }`;
+}
+
+function activeFilterCount(
+  source?: string,
+  since?: string,
+  query?: string,
+): number {
+  let n = 0;
+  if (source) n += 1;
+  if (since) n += 1;
+  if (query && query.trim().length > 0) n += 1;
+  return n;
+}
+
+function ChipGroups({
   activeSource,
   activeSince,
   query,
 }: NewsFiltersProps) {
   const sources = Array.from(new Set(feeds.map((f) => f.source))).sort();
+  return (
+    <div className="flex flex-col gap-3 pt-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-meta text-text-tertiary">Source</span>
+        <Link
+          href={buildHref({ since: activeSince, q: query })}
+          scroll={false}
+          className={chipClass(!activeSource)}
+        >
+          All
+        </Link>
+        {sources.map((s) => {
+          const active = activeSource === s;
+          return (
+            <Link
+              key={s}
+              href={buildHref({
+                source: active ? undefined : s,
+                since: activeSince,
+                q: query,
+              })}
+              scroll={false}
+              className={chipClass(active)}
+            >
+              {s}
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-meta text-text-tertiary">When</span>
+        {sinceOptions.map((opt) => {
+          const active = (activeSince ?? "") === opt.value;
+          return (
+            <Link
+              key={opt.value}
+              href={buildHref({
+                source: activeSource,
+                since: opt.value || undefined,
+                q: query,
+              })}
+              scroll={false}
+              className={chipClass(active)}
+            >
+              {opt.label}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function NewsFilters({
+  activeSource,
+  activeSince,
+  query,
+}: NewsFiltersProps) {
+  const count = activeFilterCount(activeSource, activeSince, query);
 
   return (
     <section
       aria-label="Filter news"
-      className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-3"
+      className="rounded-lg border border-border bg-surface p-3"
     >
       <form
         action="/news"
@@ -57,7 +136,7 @@ export function NewsFilters({
           name="q"
           defaultValue={query ?? ""}
           placeholder="Search headlines and summaries"
-          className="min-w-0 flex-1 rounded-md border border-border bg-surface px-3 py-2 text-body-sm text-text-primary placeholder:text-text-tertiary focus:border-brand-primary focus:outline-none focus:shadow-[var(--shadow-focus)]"
+          className="min-w-0 flex-1 rounded-md border border-border bg-surface px-3 py-2 text-body-sm text-text-primary placeholder:text-text-tertiary focus:border-brand-primary focus:outline-none"
         />
         <button
           type="submit"
@@ -67,58 +146,37 @@ export function NewsFilters({
         </button>
       </form>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-meta text-text-tertiary">Source</span>
-        <Link
-          href={buildHref({ since: activeSince, q: query })}
-          className={`rounded-sm px-2 py-1 text-meta font-medium ${
-            !activeSource
-              ? "bg-brand-primary text-text-inverse"
-              : "bg-surface-muted text-text-secondary hover:text-text-primary"
-          }`}
-        >
-          All
-        </Link>
-        {sources.map((s) => {
-          const active = activeSource === s;
-          return (
-            <Link
-              key={s}
-              href={buildHref({ source: active ? undefined : s, since: activeSince, q: query })}
-              className={`rounded-sm px-2 py-1 text-meta font-medium ${
-                active
-                  ? "bg-brand-primary text-text-inverse"
-                  : "bg-surface-muted text-text-secondary hover:text-text-primary"
-              }`}
-            >
-              {s}
-            </Link>
-          );
-        })}
-      </div>
+      {/* Mobile: collapsible chip groups behind a <details> toggle */}
+      <details className="group mt-2 lg:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between rounded-md px-1 py-1.5 text-body-sm font-medium text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
+          <span>
+            Filters
+            {count > 0 && (
+              <span className="ml-2 rounded-full bg-brand-primary px-1.5 py-0.5 text-meta text-text-inverse">
+                {count}
+              </span>
+            )}
+          </span>
+          <ChevronDown
+            size={18}
+            strokeWidth={1.5}
+            className="transition-transform group-open:rotate-180"
+          />
+        </summary>
+        <ChipGroups
+          activeSource={activeSource}
+          activeSince={activeSince}
+          query={query}
+        />
+      </details>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-meta text-text-tertiary">When</span>
-        {sinceOptions.map((opt) => {
-          const active = (activeSince ?? "") === opt.value;
-          return (
-            <Link
-              key={opt.value}
-              href={buildHref({
-                source: activeSource,
-                since: opt.value || undefined,
-                q: query,
-              })}
-              className={`rounded-sm px-2 py-1 text-meta font-medium ${
-                active
-                  ? "bg-brand-primary text-text-inverse"
-                  : "bg-surface-muted text-text-secondary hover:text-text-primary"
-              }`}
-            >
-              {opt.label}
-            </Link>
-          );
-        })}
+      {/* Desktop: always-expanded chip groups */}
+      <div className="hidden lg:block">
+        <ChipGroups
+          activeSource={activeSource}
+          activeSince={activeSince}
+          query={query}
+        />
       </div>
     </section>
   );

@@ -48,12 +48,12 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <a
-                href="mailto:worksbydennis@gmail.com?subject=Hantavirus%20tracker%20feedback"
+              <Link
+                href="/feedback"
                 className="text-text-secondary hover:text-text-primary"
               >
-                Contact
-              </a>
+                Feedback
+              </Link>
             </li>
             <li>
               <a

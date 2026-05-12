@@ -237,11 +237,16 @@
   }
 }
 
-/* Hide the Buy Me a Coffee floating widget on mobile — would overlap the
- * bottom drawer. The footer has a text "Support" link as the mobile path. */
+/* Buy Me a Coffee widget — on mobile, lift it above the bottom drawer's
+ * collapsed peek (~198px). Desktop keeps the script's default 18px margin.
+ * The widget injects either #bmc-wbtn or a `bmc-` prefixed container. */
 @media (max-width: 1023px) {
   #bmc-wbtn,
-  div[id^="bmc-wbtn"] {
-    display: none !important;
+  div[id^="bmc-wbtn"],
+  #BMC-Widget,
+  [data-name="BMC-Widget"],
+  #bmc-iframe-wrapper,
+  div[class*="bmc-widget"] {
+    bottom: 210px !important;
   }
 }

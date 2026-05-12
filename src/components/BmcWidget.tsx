@@ -63,12 +63,20 @@ export function BmcWidget() {
     let cancelled = false;
     let attempts = 0;
 
+    function isVisible(el: Element): boolean {
+      // The BMC bootstrap occasionally injects an empty/zero-size element
+      // even when the profile is unpublished, which would falsely hide our
+      // fallback. Require non-zero rendered dimensions to count as success.
+      const rect = el.getBoundingClientRect();
+      return rect.width > 4 && rect.height > 4;
+    }
+
     function check() {
       if (cancelled) return;
       const injected =
         document.getElementById("bmc-wbtn") ||
         document.querySelector("[id^='bmc-wbtn']");
-      if (injected) {
+      if (injected && isVisible(injected)) {
         setShowFallback(false);
         return;
       }

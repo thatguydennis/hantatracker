@@ -4,11 +4,17 @@ interface LegendItemProps {
   swatch: React.ReactNode;
   label: string;
   hint?: string;
+  /** Hide this item below the lg breakpoint to keep the mobile card minimal. */
+  desktopOnly?: boolean;
 }
 
-function LegendItem({ swatch, label, hint }: LegendItemProps) {
+function LegendItem({ swatch, label, hint, desktopOnly }: LegendItemProps) {
   return (
-    <li className="flex items-center gap-2.5">
+    <li
+      className={`flex items-center gap-2.5 ${
+        desktopOnly ? "hidden lg:flex" : ""
+      }`}
+    >
       <span
         aria-hidden
         className="flex h-4 w-6 shrink-0 items-center justify-center"
@@ -24,9 +30,9 @@ function LegendItem({ swatch, label, hint }: LegendItemProps) {
 }
 
 /**
- * Static, see-through map legend. Sits over the bottom-left of the map.
- * Background uses surface at low opacity + backdrop-blur so map tiles
- * remain visible underneath while the text stays legible.
+ * Static, see-through map legend. Mobile shows only the three marker types
+ * users actively interpret (Active, New, Discharged). Desktop adds the line
+ * + region context. pointer-events-none lets finger pans pass through.
  */
 export function Legend() {
   return (
@@ -40,7 +46,6 @@ export function Legend() {
       <ul className="flex flex-col gap-1.5">
         <LegendItem
           label="Active cases"
-          hint="patients under care"
           swatch={
             <svg width="20" height="14" viewBox="-10 -7 20 14" aria-hidden>
               <circle cx="0" cy="0" r="6" fill={mapColors.alert} opacity="0.3" />
@@ -50,7 +55,6 @@ export function Legend() {
         />
         <LegendItem
           label="New cases"
-          hint="green ring = reported this update"
           swatch={
             <svg width="20" height="14" viewBox="-10 -7 20 14" aria-hidden>
               <circle
@@ -67,7 +71,6 @@ export function Legend() {
         />
         <LegendItem
           label="Discharged"
-          hint="no current cases"
           swatch={
             <svg width="20" height="14" viewBox="-10 -7 20 14" aria-hidden>
               <circle
@@ -82,6 +85,7 @@ export function Legend() {
           }
         />
         <LegendItem
+          desktopOnly
           label="Cruise stop"
           hint="MV Hondius port"
           swatch={
@@ -98,6 +102,7 @@ export function Legend() {
           }
         />
         <LegendItem
+          desktopOnly
           label="Cruise route"
           swatch={
             <svg width="22" height="14" viewBox="0 0 22 14" aria-hidden>
@@ -114,6 +119,7 @@ export function Legend() {
           }
         />
         <LegendItem
+          desktopOnly
           label="Dispersal path"
           hint="Tenerife to receiving city"
           swatch={
@@ -132,6 +138,7 @@ export function Legend() {
           }
         />
         <LegendItem
+          desktopOnly
           label="Endemic regions"
           hint="where hantavirus is found"
           swatch={

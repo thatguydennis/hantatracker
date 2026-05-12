@@ -32,6 +32,9 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-4 md:px-6 md:py-6">
+      <h1 className="sr-only">
+        HantaVirus Tracker — live tracking for the Orthohantavirus
+      </h1>
       {/*
         Mobile: stats → map (55vh) → updates list, all in flow, page scrolls.
         Desktop (lg+): sidebar list | (stats + map). Both columns get the same

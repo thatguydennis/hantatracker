@@ -43,9 +43,9 @@ export function BmcWidget() {
       );
       script.setAttribute(
         "data-message",
-        "If you think this app helped you, a coffee goes a long way! Thanks!",
+        "If this app helped you, buying me cup of coffee goes a long way!",
       );
-      script.setAttribute("data-color", "#40DCA5");
+      script.setAttribute("data-color", "#FF813F");
       script.setAttribute("data-position", "Right");
       script.setAttribute("data-x_margin", "18");
       script.setAttribute("data-y_margin", "18");
@@ -103,10 +103,10 @@ export function BmcWidget() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Buy me a coffee"
-      // BMC official mint #40DCA5. Inline so it survives even if Tailwind
+      // BMC official orange #FF813F. Inline so it survives even if Tailwind
       // purges an unused class name. This is the one approved exception
       // to the "tokens only" rule because it's the third-party brand color.
-      style={{ backgroundColor: "#40DCA5", color: "#0E1F1A" }}
+      style={{ backgroundColor: "#FF813F", color: "#FFFFFF" }}
       className="fixed bottom-[18px] right-[18px] z-[9999] inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)] transition-transform hover:-translate-y-0.5"
     >
       <Coffee size={18} strokeWidth={2} aria-hidden />

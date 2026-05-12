@@ -1,17 +1,12 @@
 import Link from "next/link";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
     <footer className="mt-12 border-t border-border bg-surface lg:mt-16">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-6 md:flex-row md:items-center md:justify-between md:px-6 md:py-8">
-        <div className="flex flex-col gap-1">
-          <span className="font-display text-body-sm font-semibold text-text-primary">
-            <span>Hanta</span>
-            <span className="text-brand-primary">Virus</span>
-            <span className="ml-1 font-normal text-text-secondary">
-              Tracker
-            </span>
-          </span>
+        <div className="flex flex-col gap-2">
+          <Logo size={24} wordmarkClassName="text-body-sm" />
           <span className="text-meta text-text-tertiary">
             Independent. Not affiliated with any health agency or news outlet.
           </span>

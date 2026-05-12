@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu, X, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "./Logo";
 
 const navItems = [
   { href: "/news", label: "News" },
@@ -22,13 +23,8 @@ export function TopBar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-4 md:h-16 md:px-6">
-        <Link
-          href="/"
-          className="font-display text-h3 font-semibold tracking-tight text-text-primary"
-        >
-          <span className="text-text-primary">Hanta</span>
-          <span className="text-brand-primary">Virus</span>
-          <span className="ml-1 text-text-secondary font-normal">Tracker</span>
+        <Link href="/" aria-label="HantaVirus Tracker — home">
+          <Logo size={28} wordmarkClassName="text-h3" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

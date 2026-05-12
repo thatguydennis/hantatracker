@@ -34,22 +34,22 @@ export const metadata: Metadata = {
     template: "%s · HantaVirus Tracker",
   },
   description:
-    "Live, free tracker for hantavirus. Map endemic regions and active cases, follow headlines from official health agencies and major outlets, and read the science explained plainly. Updated automatically.",
+    "An online live tracker for the deadly Orthohantavirus. Real updates from official health agencies and major outlets. Live. Fast. Free.",
   applicationName: "HantaVirus Tracker",
   keywords: [
     "hantavirus",
-    "hantavirus tracker",
+    "orthohantavirus",
     "live virus tracker",
+    "hantavirus tracker",
     "Andes virus",
     "hantavirus pulmonary syndrome",
     "outbreak map",
-    "health agency news",
   ],
   openGraph: {
     type: "website",
     title: "HantaVirus Tracker",
     description:
-      "Live hantavirus tracker. Free, independent, automatically refreshed from health agencies and major news outlets.",
+      "An online live tracker for the deadly Orthohantavirus. Live. Fast. Free.",
     siteName: "HantaVirus Tracker",
     locale: "en_US",
   },
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HantaVirus Tracker",
     description:
-      "Live hantavirus tracker. Free, independent, automatically refreshed from health agencies and major news outlets.",
+      "An online live tracker for the deadly Orthohantavirus. Live. Fast. Free.",
   },
   robots: { index: true, follow: true },
 };

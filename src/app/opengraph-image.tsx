@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "HantaVirus Tracker — live, free hantavirus tracker";
+export const alt = "HantaVirus Tracker — live, free Orthohantavirus tracker";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -92,13 +92,13 @@ export default function OgImage() {
         >
           <div
             style={{
-              fontSize: 40,
+              fontSize: 42,
               lineHeight: 1.25,
-              maxWidth: 970,
+              maxWidth: 1000,
               color: "#FAFAF7",
             }}
           >
-            Live, free hantavirus tracker — endemic regions, current cases, and headlines from official agencies.
+            An online live tracker for the deadly Orthohantavirus. Real updates from health agencies. Live. Fast. Free.
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <div

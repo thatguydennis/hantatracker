@@ -34,20 +34,22 @@ export const metadata: Metadata = {
     template: "%s · HantaVirus Tracker",
   },
   description:
-    "An information hub about hantavirus — endemic regions, historical outbreaks, and the 2026 MV Hondius cruise ship cluster. Live news feed from health authorities and major outlets.",
+    "Live, free tracker for hantavirus. Map endemic regions and active cases, follow headlines from official health agencies and major outlets, and read the science explained plainly. Updated automatically.",
   applicationName: "HantaVirus Tracker",
   keywords: [
     "hantavirus",
+    "hantavirus tracker",
+    "live virus tracker",
     "Andes virus",
-    "MV Hondius",
-    "outbreak tracker",
     "hantavirus pulmonary syndrome",
+    "outbreak map",
+    "health agency news",
   ],
   openGraph: {
     type: "website",
     title: "HantaVirus Tracker",
     description:
-      "Map, news, and explainers about hantavirus and the 2026 MV Hondius cruise ship outbreak.",
+      "Live hantavirus tracker. Free, independent, automatically refreshed from health agencies and major news outlets.",
     siteName: "HantaVirus Tracker",
     locale: "en_US",
   },
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HantaVirus Tracker",
     description:
-      "Map, news, and explainers about hantavirus and the 2026 MV Hondius cruise ship outbreak.",
+      "Live hantavirus tracker. Free, independent, automatically refreshed from health agencies and major news outlets.",
   },
   robots: { index: true, follow: true },
 };

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "HantaVirus Tracker — map, news, and explainers";
+export const alt = "HantaVirus Tracker — live, free hantavirus tracker";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -92,13 +92,13 @@ export default function OgImage() {
         >
           <div
             style={{
-              fontSize: 38,
+              fontSize: 40,
               lineHeight: 1.25,
-              maxWidth: 950,
+              maxWidth: 970,
               color: "#FAFAF7",
             }}
           >
-            Map, news, and explainers. The 2026 MV Hondius cluster, live.
+            Live, free hantavirus tracker — endemic regions, current cases, and headlines from official agencies.
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <div
@@ -108,9 +108,9 @@ export default function OgImage() {
                 gap: 10,
                 padding: "10px 18px",
                 borderRadius: 999,
-                background: "rgba(226, 75, 74, 0.18)",
-                border: "2px solid #E24B4A",
-                color: "#FFA8A7",
+                background: "rgba(31, 166, 122, 0.18)",
+                border: "2px solid #1FA67A",
+                color: "#AEEBD5",
                 fontSize: 24,
                 fontWeight: 600,
               }}
@@ -120,13 +120,13 @@ export default function OgImage() {
                   width: 12,
                   height: 12,
                   borderRadius: 999,
-                  background: "#E24B4A",
+                  background: "#1FA67A",
                 }}
               />
-              Active outbreak
+              Updated automatically
             </div>
             <div style={{ fontSize: 22, color: "#A8B4C2" }}>
-              hantavirustracker.vercel.app
+              Free · independent
             </div>
           </div>
         </div>

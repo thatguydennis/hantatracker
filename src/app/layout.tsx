@@ -4,6 +4,7 @@ import { TopBar } from "@/components/Nav/TopBar";
 import { Footer } from "@/components/Nav/Footer";
 import { BmcWidget } from "@/components/BmcWidget";
 import { getSiteUrl } from "@/lib/siteUrl";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -108,6 +109,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <BmcWidget />
+        <Analytics />
       </body>
     </html>
   );

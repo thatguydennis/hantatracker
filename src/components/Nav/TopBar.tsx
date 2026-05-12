@@ -6,7 +6,6 @@ import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
-  { href: "/", label: "Home" },
   { href: "/news", label: "News" },
   { href: "/science", label: "Science" },
   { href: "/faq", label: "FAQ" },
@@ -25,9 +24,11 @@ export function TopBar() {
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-4 md:h-16 md:px-6">
         <Link
           href="/"
-          className="text-h3 font-semibold text-text-primary tracking-tight"
+          className="font-display text-h3 font-semibold tracking-tight text-text-primary"
         >
-          Hantavirus tracker
+          <span className="text-text-primary">Hanta</span>
+          <span className="text-brand-primary">Virus</span>
+          <span className="ml-1 text-text-secondary font-normal">Tracker</span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

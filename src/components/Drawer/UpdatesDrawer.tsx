@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useAnimation, type PanInfo } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  useDragControls,
+  type PanInfo,
+} from "framer-motion";
 import { useState } from "react";
 import { UpdateItem, type UpdateData } from "./UpdateItem";
 
@@ -15,6 +20,7 @@ const EXPANDED_RATIO = 0.85;
 export function UpdatesDrawer({ updates, loading }: UpdatesDrawerProps) {
   const [open, setOpen] = useState(false);
   const controls = useAnimation();
+  const dragControls = useDragControls();
 
   function toggle() {
     setOpen((v) => !v);
@@ -36,6 +42,8 @@ export function UpdatesDrawer({ updates, loading }: UpdatesDrawerProps) {
     <motion.aside
       aria-label="Latest updates"
       drag="y"
+      dragListener={false}
+      dragControls={dragControls}
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.05}
       onDragEnd={handleDragEnd}
@@ -49,12 +57,14 @@ export function UpdatesDrawer({ updates, loading }: UpdatesDrawerProps) {
       className="fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-hidden rounded-t-xl border-x border-t border-border bg-surface shadow-[var(--shadow-drawer)] lg:hidden"
       style={{ height: COLLAPSED_HEIGHT }}
     >
+      {/* Only the header is draggable — scrollable list below is left alone */}
       <button
         type="button"
         onClick={toggle}
+        onPointerDown={(e) => dragControls.start(e)}
         aria-expanded={open}
         aria-label={open ? "Collapse updates" : "Expand updates"}
-        className="flex w-full flex-col items-stretch border-b border-border bg-surface px-4 py-2 text-left"
+        className="flex w-full touch-none flex-col items-stretch border-b border-border bg-surface px-4 py-2 text-left"
       >
         <span
           aria-hidden

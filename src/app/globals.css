@@ -142,6 +142,7 @@
   --color-ring: var(--ring);
 
   --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -203,12 +204,20 @@
     -moz-osx-font-smoothing: grayscale;
   }
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+  }
   h3,
   h4,
   h5,
   h6 {
     color: var(--text-primary);
+  }
+  .font-display {
+    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+    letter-spacing: -0.015em;
   }
   .tabular-nums {
     font-variant-numeric: tabular-nums;

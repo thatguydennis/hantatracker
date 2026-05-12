@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Rounded square background in brand-primary -->
+  <rect width="32" height="32" rx="6" fill="#4A6FA5"/>
+  <!-- Mouse silhouette: round body, two ears, tail -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2">
+    <!-- Left ear -->
+    <circle cx="11.5" cy="12.5" r="2.6" fill="#FFFFFF"/>
+    <circle cx="11.5" cy="12.5" r="1.1" fill="#4A6FA5" stroke="none"/>
+    <!-- Right ear -->
+    <circle cx="19.5" cy="11.8" r="2.4" fill="#FFFFFF"/>
+    <circle cx="19.5" cy="11.8" r="1" fill="#4A6FA5" stroke="none"/>
+    <!-- Head / body -->
+    <ellipse cx="16" cy="18" rx="7" ry="6" fill="#FFFFFF"/>
+    <!-- Eye -->
+    <circle cx="14.4" cy="18.4" r="0.9" fill="#1A2332" stroke="none"/>
+    <!-- Nose -->
+    <circle cx="9.6" cy="19.6" r="0.7" fill="#E24B4A" stroke="none"/>
+    <!-- Whiskers -->
+    <path d="M9 19 L6.5 18" stroke="#1A2332" stroke-width="0.5" fill="none"/>
+    <path d="M9 20 L6.5 21" stroke="#1A2332" stroke-width="0.5" fill="none"/>
+    <!-- Tail -->
+    <path d="M22 21 Q26 21 26 25" stroke="#FFFFFF" stroke-width="1.4" fill="none"/>
+  </g>
+</svg>

@@ -1,14 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import Script from "next/script";
+import { Inter, Fraunces } from "next/font/google";
 import { TopBar } from "@/components/Nav/TopBar";
 import { Footer } from "@/components/Nav/Footer";
+import { BmcWidget } from "@/components/BmcWidget";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Variable serif used for display/h1/h2. Soft, editorial, distinctive —
+// pulls the site away from the default Inter-everywhere look.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -21,12 +30,12 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Hantavirus tracker",
-    template: "%s · Hantavirus tracker",
+    default: "HantaVirus Tracker",
+    template: "%s · HantaVirus Tracker",
   },
   description:
     "An information hub about hantavirus — endemic regions, historical outbreaks, and the 2026 MV Hondius cruise ship cluster. Live news feed from health authorities and major outlets.",
-  applicationName: "Hantavirus tracker",
+  applicationName: "HantaVirus Tracker",
   keywords: [
     "hantavirus",
     "Andes virus",
@@ -36,15 +45,15 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    title: "Hantavirus tracker",
+    title: "HantaVirus Tracker",
     description:
       "Map, news, and explainers about hantavirus and the 2026 MV Hondius cruise ship outbreak.",
-    siteName: "Hantavirus tracker",
+    siteName: "HantaVirus Tracker",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hantavirus tracker",
+    title: "HantaVirus Tracker",
     description:
       "Map, news, and explainers about hantavirus and the 2026 MV Hondius cruise ship outbreak.",
   },
@@ -79,7 +88,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           // eslint-disable-next-line react/no-danger
@@ -98,20 +111,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <Script
-          id="bmc-widget"
-          src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-          strategy="afterInteractive"
-          data-name="BMC-Widget"
-          data-cfasync="false"
-          data-id="denniscomandante"
-          data-description="Support me on Buy me a coffee!"
-          data-message="If you think my work helped you, a coffee goes a long way!"
-          data-color="#FF5F5F"
-          data-position="Right"
-          data-x_margin="18"
-          data-y_margin="18"
-        />
+        <BmcWidget />
       </body>
     </html>
   );

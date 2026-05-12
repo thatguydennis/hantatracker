@@ -1,4 +1,4 @@
-import { cruiseData, portStops } from "@/data/cruise-data";
+import { cruiseData } from "@/data/cruise-data";
 
 interface StatProps {
   value: number;
@@ -31,18 +31,16 @@ function Stat({ value, label, emphasis }: StatProps) {
 
 export function StatsBar() {
   const { stats } = cruiseData.outbreak;
-  const stops = portStops.length;
-  const countries = stats.countries_affected;
 
   return (
     <section
       aria-label="Outbreak statistics"
       className="grid grid-cols-4 gap-2 md:gap-3"
     >
-      <Stat value={stats.cases_total} label="Cases" emphasis />
+      <Stat value={stats.cases_total} label="Total cases" emphasis />
       <Stat value={stats.deaths} label="Deaths" emphasis />
-      <Stat value={stops} label="Stops" />
-      <Stat value={countries} label="Countries" />
+      <Stat value={stats.new_cases} label="New cases" emphasis />
+      <Stat value={stats.countries_affected} label="Countries" />
     </section>
   );
 }

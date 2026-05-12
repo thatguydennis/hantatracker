@@ -49,6 +49,7 @@ export interface OutbreakMeta {
     cases_probable: number;
     cases_total: number;
     deaths: number;
+    new_cases: number;
     countries_affected: number;
   };
 }

@@ -8,9 +8,9 @@
   ],
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.hantatracker.dev" }],
-      "destination": "https://hantatracker.dev/:path*",
+      "destination": "https://hantatracker.dev/$1",
       "permanent": true
     }
   ]
